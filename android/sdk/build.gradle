@@ -1,4 +1,9 @@
 buildscript {
+    repositories {
+        maven { url "http://mvnrepo.alibaba-inc.com/mvn/repository" }
+        mavenCentral()
+        jcenter()
+    }
     dependencies {
         classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.5.0'
     }
@@ -6,6 +11,13 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
+/*** publish bintray */
+//apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.jfrog.bintray'
+
+
+apply plugin: 'com.novoda.bintray-release'
+
 
 ext.disableCov = project.hasProperty('disableCov') ? project.getProperty('disableCov') : 'false'
 if(!disableCov.toBoolean()){
@@ -32,7 +44,7 @@ checkstyle {
     toolVersion = '6.9'
 }
 
-version = "0.9.4"
+
 
 android {
     compileSdkVersion project.compileSdkVersion
@@ -137,4 +149,12 @@ dependencies {
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile "org.robolectric:shadows-httpclient:3.0"
     testCompile 'org.json:json:20160212'
+}
+
+/*** publish bintray */
+publish {
+    userOrg = 'alibabaweex'
+    groupId = "${groupId}"
+    artifactId = 'weex_sdk'
+    publishVersion = "0.13.1.1"
 }
